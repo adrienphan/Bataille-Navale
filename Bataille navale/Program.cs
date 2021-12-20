@@ -45,10 +45,87 @@ namespace ConsoleApplication1
             Regex latitudeCheck = new Regex(@"^[0-9]+$");
 
             // Bonne chance guillaume
-            while (true)
+            bool positionBoat = false;
+            while (!positionBoat)
             {
+                for (int i = 5; i > 0; i--)
+                {
 
+                    bool longLatTest = false;
+                    while (!longLatTest)
+                    {
+                        try
+                        {
+                            int longitudeBoat = 0;
+                            int latitudeBoat = 0;
+
+                            Console.WriteLine("Indiquez les coordonées de votre porte-avion.");
+                            playerInput = Console.ReadLine();
+
+
+                            string linePosition = playerInput.Substring(0, 1/*EXCLU*/);
+                            string columnPosition = playerInput.Substring(1);
+
+
+                            // Verifier la validité de la ligne
+                            if (longitudeCheck.IsMatch(linePosition))
+                            {
+                                longitudeBoat = lineCharacterToInt(playerInput[0]);
+                            }
+                            else
+                            {
+                                throw new Exception("La lettre de la ligne n'est pas valide");
+                            }
+                            // Verifier la validité de la colonne
+                            if (latitudeCheck.IsMatch(columnPosition)
+                                && int.Parse(columnPosition) > 0 && int.Parse(columnPosition) <= 10)
+                            {
+                                latitudeBoat = int.Parse(columnPosition) - 1;
+                            }
+                            else
+                            {
+                                throw new Exception("Le chiffre de la colonne n'est pas valide");
+                            }
+
+                            if (battleMap[longitudeBoat, latitudeBoat] == null)
+                            {
+                                            
+                                if (battleMap[longitudeBoat + 1, latitudeBoat] != null || battleMap[longitudeBoat + 1, latitudeBoat + 1] != null || battleMap[longitudeBoat + 1, latitudeBoat - 1] != null || battleMap[longitudeBoat - 1, latitudeBoat] != null || battleMap[longitudeBoat - 1, latitudeBoat - 1] != null || battleMap[longitudeBoat, latitudeBoat + 1] != null || battleMap[longitudeBoat, latitudeBoat - 1] != null)
+                                {
+                                    if (battleMap[longitudeBoat + 1, latitudeBoat] == "carrier" || battleMap[longitudeBoat - 1, latitudeBoat] != "carrier" || battleMap[longitudeBoat, latitudeBoat + 1] != "carrier" || battleMap[longitudeBoat, latitudeBoat - 1] != "carrier")
+                                    {
+                                        battleMap[longitudeBoat, latitudeBoat] = "carrier";
+                                        longLatTest = true;
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("votre coordonné est trop près d'un autre bateau, Veuillez en entrer une autre");
+                                    }
+                                }
+                                else
+                                {
+                                    battleMap[longitudeBoat, latitudeBoat] = "carrier";
+                                    longLatTest = true;
+                                }
+                            }
+                            else if (battleMap[longitudeBoat, latitudeBoat] != null)
+                            {
+                                Console.WriteLine("il existe déja un bateau à cette coordonné, veuillez en entrer une autre");
+                            }
+                        }
+
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine($"{ex.Message}");
+                            continue;
+                        }
+                        positionBoat = !positionBoat;
+
+                    }
+                }
             }
+
+
 
             while (true)
             {
@@ -60,7 +137,7 @@ namespace ConsoleApplication1
                 {
                     string linePosition = playerInput.Substring(0, 1/*EXCLU*/);
                     string columnPosition = playerInput.Substring(1);
-
+                    // **************************************************************************************************
                     // Verifier la validité de la ligne
                     if (longitudeCheck.IsMatch(linePosition))
                     {
@@ -82,6 +159,7 @@ namespace ConsoleApplication1
                     }
 
                 }
+                //*************************************************************************************************
                 catch (Exception ex)
                 {
                     Console.WriteLine($"{ex.Message}");
@@ -117,10 +195,41 @@ namespace ConsoleApplication1
             }
             Console.WriteLine("Fin de la boucle. Pourquoi êtes-vous ici?");
             Console.ReadLine();
-        }
-        static int lineCharacterToInt(char charToUnicode)
-        {
-            return (int)charToUnicode - (int)'A';
+
+
+            /* static int validityTest(string linePosition, string columnPosition, Regex longitudeCheck, Regex latitudeCheck)
+            {
+                int longitudeBoat = 0;
+                int latitudeBoat = 0;
+
+            if (longitudeCheck.IsMatch(linePosition))
+            {
+                return longitudeBoat = lineCharacterToInt(playerInput[0]);
+            }
+            else
+            {
+                return new Exception("La lettre de la ligne n'est pas valide");
+            }
+            // Verifier la validité de la colonne
+            if (latitudeCheck.IsMatch(columnPosition)
+                && int.Parse(columnPosition) > 0 && int.Parse(columnPosition) <= 10)
+            {
+                return latitudeBoat = int.Parse(columnPosition) - 1;
+            }
+            else
+            {
+                return new Exception("Le chiffre de la colonne n'est pas valide");
+            }
+
+            } */
+
+            int lineCharacterToInt(char charToUnicode)
+            {
+                return (int)charToUnicode - (int)'A';
+            }
+
+
+
         }
     }
 }
