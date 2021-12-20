@@ -5,3 +5,4 @@ C:\Users\arthu\Documents\Cours\Lamanu\Git\Bataille navale\Bataille-Navale\Batail
 C:\Users\arthu\Documents\Cours\Lamanu\Git\Bataille navale\Bataille-Navale\Bataille navale\obj\Debug\Bataille navale.csproj.CoreCompileInputs.cache
 C:\Users\arthu\Documents\Cours\Lamanu\Git\Bataille navale\Bataille-Navale\Bataille navale\obj\Debug\Bataille navale.exe
 C:\Users\arthu\Documents\Cours\Lamanu\Git\Bataille navale\Bataille-Navale\Bataille navale\obj\Debug\Bataille navale.pdb
+C:\Users\arthu\Documents\Cours\Lamanu\Git\Bataille navale\Bataille-Navale\Bataille navale\obj\Debug\Bataille navale.csproj.AssemblyReference.cache

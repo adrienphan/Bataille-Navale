@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Threading.Tasks;
 using System.Net.Sockets;
 using System.Text.RegularExpressions;
+using Bataille_navale;
 
 namespace ConsoleApplication1
 {
@@ -13,6 +14,16 @@ namespace ConsoleApplication1
         public static int latitudeShot = 0;
         static void Main(string[] args)
         {
+            GameLoop();
+        }
+        static int lineCharacterToInt(char charToUnicode)
+        {
+            return (int)charToUnicode - (int)'A';
+        }
+
+        public static async Task GameLoop()
+        {
+
             string[,] battleMap = new string[10, 10];
             Dictionary<string, int> boats = new Dictionary<string, int>();
             boats.Add("carrier", 5);
@@ -44,21 +55,23 @@ namespace ConsoleApplication1
             battleMap[8, 8] = "destroyer";
             battleMap[8, 9] = "destroyer";
 
+
             // Input check and crunch
             string playerInput = "";
             Regex longitudeCheck = new Regex(@"^[A-J]+$");
             Regex latitudeCheck = new Regex(@"^[0-9]+$");
 
+            string linePosition = "";
+            string columnPosition = ";";
             while (playerHealth > 0)
             {
                 Console.WriteLine("Indiquez les coordonées du tir.");
                 playerInput = Console.ReadLine();
 
-
                 try
                 {
-                    string linePosition = playerInput.Substring(0, 1/*EXCLU*/);
-                    string columnPosition = playerInput.Substring(1);
+                    linePosition = playerInput.Substring(0, 1/*EXCLU*/);
+                    columnPosition = playerInput.Substring(1);
 
                     // Verifier la validité de la ligne
                     if (longitudeCheck.IsMatch(linePosition))
@@ -86,7 +99,16 @@ namespace ConsoleApplication1
                     Console.WriteLine($"{ex.Message}");
                     continue;
                 }
-                Console.WriteLine($"{longitudeShot},{latitudeShot}");
+
+
+                await Client.Send("192.168.1.67", playerInput);
+                playerInput = Client.responseData;
+
+                linePosition = playerInput.Substring(0, 1/*EXCLU*/);
+                columnPosition = playerInput.Substring(1);
+
+                longitudeShot = lineCharacterToInt(playerInput[0]);
+                latitudeShot = int.Parse(columnPosition) - 1;
 
                 // Attaque de l'adversaire
                 if (battleMap[longitudeShot, latitudeShot] == null)
@@ -125,7 +147,7 @@ namespace ConsoleApplication1
                     if (playerInput == "oui")
                     {
                         Console.Clear();
-                        Main(null);
+                        GameLoop();
                     }
                     if (playerInput == "non")
                     {
@@ -138,9 +160,6 @@ namespace ConsoleApplication1
                 }
             }
         }
-        static int lineCharacterToInt(char charToUnicode)
-        {
-            return (int)charToUnicode - (int)'A';
-        }
+
     }
 }

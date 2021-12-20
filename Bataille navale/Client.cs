@@ -9,7 +9,8 @@ namespace Bataille_navale
 {
     class Client
     {
-        static void Connect(String server, String message)
+        public static string responseData;
+        public static async Task Send(String server, String message)
         {
             try
             {
@@ -26,17 +27,51 @@ namespace Bataille_navale
                 Console.WriteLine("Sent: {0}", message);
                 // Receive the TcpServer.response.
 
+                // Receive the result of the attack
                 data = new Byte[256];
                 // String to store the response ASCII representation.
-                String responseData = String.Empty;
+                responseData = String.Empty;
                 // Read the first batch of the TcpServer response bytes.
                 Int32 bytes = stream.Read(data, 0, data.Length);
                 responseData = System.Text.Encoding.ASCII.GetString(data, 0, bytes);
                 Console.WriteLine("Received: {0}", responseData);
 
+                // Receive the ennemy the attack
+                data = new Byte[256];
+                // String to store the response ASCII representation.
+                responseData = String.Empty;
+                // Read the first batch of the TcpServer response bytes.
+                bytes = stream.Read(data, 0, data.Length);
+                responseData = System.Text.Encoding.ASCII.GetString(data, 0, bytes);
+                Console.WriteLine("Vous avez été attaqué en : {0}", responseData);
+
                 // Close everything.
                 stream.Close();
                 client.Close();
+            }
+            catch (ArgumentNullException e)
+            {
+                Console.WriteLine("ArgumentNullException: {0}", e);
+            }
+            catch (SocketException e)
+            {
+                Console.WriteLine("SocketException: {0}", e);
+            }
+        }
+
+        public static async Task Receive(NetworkStream _stream)
+        {
+            try
+            {
+                NetworkStream stream = _stream;
+
+                Byte[] data = new Byte[256];
+                // String to store the response ASCII representation.
+                String responseData = String.Empty;
+                // Read the first batch of the TcpServer response bytes.
+                Int32 bytes = await stream.ReadAsync(data, 0, data.Length);
+                responseData = System.Text.Encoding.ASCII.GetString(data, 0, bytes);
+                Console.WriteLine("Received: {0}", responseData);
             }
             catch (ArgumentNullException e)
             {
@@ -52,3 +87,4 @@ namespace Bataille_navale
         }
     }
 }
+
