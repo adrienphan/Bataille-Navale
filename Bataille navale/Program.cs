@@ -55,6 +55,7 @@ namespace ConsoleApplication1
             battleMap[8, 8] = "destroyer";
             battleMap[8, 9] = "destroyer";
 
+           
 
             // Input check and crunch
             string playerInput = "";
@@ -63,6 +64,79 @@ namespace ConsoleApplication1
 
             string linePosition = "";
             string columnPosition = ";";
+
+            /**CoordCheck
+             * checks coordinates are valid
+             * returns true if coords are valid
+             */
+            bool CoordCheck(string coordInput)
+            {
+                try
+                {
+                    linePosition = coordInput.Substring(0, 1/*EXCLU*/);
+                    columnPosition = coordInput.Substring(1);
+                    bool isLineValid = false;
+                    bool isColumnValid = false;
+
+                    // Verifier la validité de la ligne
+                    if (longitudeCheck.IsMatch(linePosition))
+                    {
+                        longitudeShot = lineCharacterToInt(playerInput[0]);
+                         isLineValid = true;
+                    }
+                    else
+                    {
+                        throw new Exception("La lettre de la ligne n'est pas valide");
+                    }
+                    // Verifier la validité de la colonne
+                    if (latitudeCheck.IsMatch(columnPosition)
+                        && int.Parse(columnPosition) > 0 && int.Parse(columnPosition) <= 10)
+                    {
+                        latitudeShot = int.Parse(columnPosition) - 1;
+                        isColumnValid = true;
+                    }
+                    else
+                    {
+                        throw new Exception("Le chiffre de la colonne n'est pas valide");
+                    }
+                    if (isLineValid && isColumnValid)
+                    {
+                        return true;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"{ex.Message}");
+                    return false;  
+                }
+                return false;
+            }
+
+            /**PlaceBoat
+             * placement d'un bateau
+             */
+            void PlaceBoat(string boat, int boatLength)
+            {
+                Console.WriteLine($"Placez votre {boat} (coordonnée la plus haute ou a gauche).");
+                //coordonnée du départ du bateau :
+                string baseCoord;
+                //confirmer l'entrée.
+                bool isCoordCorrect = false;
+                while (!isCoordCorrect)
+                {
+                    baseCoord = Console.ReadLine();
+                    isCoordCorrect = CoordCheck(baseCoord);
+                }
+            }
+
+            foreach (KeyValuePair<string, int> boat in boats)
+            {
+                PlaceBoat(boat.Key, boat.Value);
+            }
+
+
+            /*******************************************************************************/
+
             while (playerHealth > 0)
             {
                 Console.WriteLine("Indiquez les coordonées du tir.");
