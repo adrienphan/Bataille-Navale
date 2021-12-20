@@ -21,6 +21,11 @@ namespace ConsoleApplication1
             boats.Add("submarine", 3);
             boats.Add("destroyer", 2);
 
+            int playerHealth = boats.Sum(x => x.Value);
+
+            longitudeShot = 0;
+            latitudeShot = 0;
+
             battleMap[1, 1] = "carrier";
             battleMap[1, 2] = "carrier";
             battleMap[1, 3] = "carrier";
@@ -44,13 +49,7 @@ namespace ConsoleApplication1
             Regex longitudeCheck = new Regex(@"^[A-J]+$");
             Regex latitudeCheck = new Regex(@"^[0-9]+$");
 
-            // Bonne chance guillaume
-            while (true)
-            {
-
-            }
-
-            while (true)
+            while (playerHealth > 0)
             {
                 Console.WriteLine("Indiquez les coordonées du tir.");
                 playerInput = Console.ReadLine();
@@ -113,10 +112,31 @@ namespace ConsoleApplication1
                     {
                         battleMap[longitudeShot, latitudeShot] = "Touché";
                     }
+                    playerHealth--;
                 }
             }
-            Console.WriteLine("Fin de la boucle. Pourquoi êtes-vous ici?");
-            Console.ReadLine();
+
+            while (true)
+            {
+                Console.WriteLine("Fin de la partie. Voulez-vous rejouer? Ecrivez oui pour rejouer. Ecrivez non pour quitter.");
+                playerInput = Console.ReadLine();
+                try
+                {
+                    if (playerInput == "oui")
+                    {
+                        Console.Clear();
+                        Main(null);
+                    }
+                    if (playerInput == "non")
+                    {
+                        break;
+                    }
+                }
+                catch
+                {
+                    Console.WriteLine("Commande invalide");
+                }
+            }
         }
         static int lineCharacterToInt(char charToUnicode)
         {
