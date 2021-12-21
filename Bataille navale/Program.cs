@@ -34,25 +34,52 @@ namespace ConsoleApplication1
             longitudeShot = 0;
             latitudeShot = 0;
 
-            //battleMap[1, 1] = "carrier";
-            //battleMap[1, 2] = "carrier";
-            //battleMap[1, 3] = "carrier";
-            //battleMap[1, 4] = "carrier";
-            //battleMap[1, 5] = "carrier";
-            //battleMap[2, 7] = "battleship";
-            //battleMap[3, 7] = "battleship";
-            //battleMap[4, 7] = "battleship";
-            //battleMap[5, 7] = "battleship";
-            //battleMap[3, 2] = "cruiser";
-            //battleMap[4, 2] = "cruiser";
-            //battleMap[5, 2] = "cruiser";
-            //battleMap[5, 4] = "submarine";
-            //battleMap[6, 4] = "submarine";
-            //battleMap[7, 4] = "submarine";
-            //battleMap[8, 8] = "destroyer";
-            //battleMap[8, 9] = "destroyer";
+            /*battleMap[1, 1] = "carrier";
+            battleMap[1, 2] = "carrier";
+            battleMap[1, 3] = "carrier";
+            battleMap[1, 4] = "carrier";
+            battleMap[1, 5] = "carrier";
+            battleMap[2, 7] = "battleship";
+            battleMap[3, 7] = "battleship";
+            battleMap[4, 7] = "battleship";
+            battleMap[5, 7] = "battleship";
+            battleMap[3, 2] = "cruiser";
+            battleMap[4, 2] = "cruiser";
+            battleMap[5, 2] = "cruiser";
+            battleMap[5, 4] = "submarine";
+            battleMap[6, 4] = "submarine";
+            battleMap[7, 4] = "submarine";
+            battleMap[8, 8] = "destroyer";
+            battleMap[8, 9] = "destroyer"; */
 
-           
+
+            /********************************************************************/
+            void tableBattle()
+            {
+                Console.Write("     A | B | C | D | E | F | G | H | I | J" + "\n");
+                int numberColumn = 1;
+
+                for (int tablecolumn = 0; tablecolumn < 10; tablecolumn++)
+                {
+                    Console.Write(" " + numberColumn + " ");
+                    numberColumn++;
+                    for (int tableligne = 0; tableligne < 10; tableligne++)
+                    {
+                        if (battleMap[tableligne, tablecolumn] == null)
+                        {
+                            Console.Write("| ≈ ");
+                        }
+                        else
+                        {
+                            Console.Write("| B ");
+                        }
+                    }
+                    Console.WriteLine("\n");
+                }
+            }
+
+            /******************************************************************/
+
 
             // Input check and crunch
             string playerInput = "";
@@ -174,6 +201,8 @@ namespace ConsoleApplication1
                         //placer les cases du bateau
                         battleMap[boatBoxX, boatBoxY] = boat;
                         Console.WriteLine($"Case de {boat} en : {boatBoxX}, {boatBoxY}");
+                        Console.Clear();
+                        tableBattle();
                     }
                 }
             }

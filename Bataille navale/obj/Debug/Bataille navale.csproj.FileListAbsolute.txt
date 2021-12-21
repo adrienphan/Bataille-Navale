@@ -14,3 +14,11 @@ C:\Users\adrie\Documents\La Manu\Csharp basics\Bataille-Navale\Bataille navale\o
 C:\Users\adrie\Documents\La Manu\Csharp basics\Bataille-Navale\Bataille navale\obj\Debug\Bataille navale.csproj.CoreCompileInputs.cache
 C:\Users\adrie\Documents\La Manu\Csharp basics\Bataille-Navale\Bataille navale\obj\Debug\Bataille navale.exe
 C:\Users\adrie\Documents\La Manu\Csharp basics\Bataille-Navale\Bataille navale\obj\Debug\Bataille navale.pdb
+C:\Users\ooguiboogui\bn+\Bataille-Navale\Bataille navale\bin\Debug\Bataille navale.exe.config
+C:\Users\ooguiboogui\bn+\Bataille-Navale\Bataille navale\bin\Debug\Bataille navale.exe
+C:\Users\ooguiboogui\bn+\Bataille-Navale\Bataille navale\bin\Debug\Bataille navale.pdb
+C:\Users\ooguiboogui\bn+\Bataille-Navale\Bataille navale\obj\Debug\Bataille navale.csproj.AssemblyReference.cache
+C:\Users\ooguiboogui\bn+\Bataille-Navale\Bataille navale\obj\Debug\Bataille navale.csproj.SuggestedBindingRedirects.cache
+C:\Users\ooguiboogui\bn+\Bataille-Navale\Bataille navale\obj\Debug\Bataille navale.csproj.CoreCompileInputs.cache
+C:\Users\ooguiboogui\bn+\Bataille-Navale\Bataille navale\obj\Debug\Bataille navale.exe
+C:\Users\ooguiboogui\bn+\Bataille-Navale\Bataille navale\obj\Debug\Bataille navale.pdb
