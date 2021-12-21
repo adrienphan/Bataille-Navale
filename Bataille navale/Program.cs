@@ -10,8 +10,6 @@ namespace ConsoleApplication1
 {
     class Program
     {
-        public static int longitudeShot = 0;
-        public static int latitudeShot = 0;
         static void Main(string[] args)
         {
             GameLoop();
@@ -23,6 +21,8 @@ namespace ConsoleApplication1
 
         public static async Task GameLoop()
         {
+            int longitudeShot = 0;
+            int latitudeShot = 0;
 
             string[,] battleMap = new string[10, 10];
             Dictionary<string, int> boats = new Dictionary<string, int>();
@@ -63,6 +63,8 @@ namespace ConsoleApplication1
 
             string linePosition = "";
             string columnPosition = ";";
+            string answerToAttack = "";
+
             while (playerHealth > 0)
             {
                 Console.WriteLine("Indiquez les coordonées du tir.");
@@ -101,7 +103,7 @@ namespace ConsoleApplication1
                 }
 
 
-                await Client.Send("192.168.1.67", playerInput);
+                await Client.Send("192.168.1.33", playerInput);
                 playerInput = Client.responseData;
 
                 linePosition = playerInput.Substring(0, 1/*EXCLU*/);
@@ -113,29 +115,34 @@ namespace ConsoleApplication1
                 // Attaque de l'adversaire
                 if (battleMap[longitudeShot, latitudeShot] == null)
                 {
-                    Console.WriteLine("On a entendu plouf au loin. Et des rires distants.");
+                    answerToAttack = "On a entendu plouf au loin. Et des rires distants.";
                 }
                 else if (battleMap[longitudeShot, latitudeShot] == "Touché")
                 {
-                    Console.WriteLine($"Vous avez déjà tiré sur cette case. Achetez-vous des lunettes.");
+                    answerToAttack = $"Vous avez déjà tiré sur cette case. Achetez-vous des lunettes.";
                 }
                 else if (battleMap[longitudeShot, latitudeShot] != null)
                 {
-                    Console.WriteLine(battleMap[longitudeShot, latitudeShot]);
+                    //Console.WriteLine(battleMap[longitudeShot, latitudeShot]);
 
-                    Console.WriteLine($"Le bateau de type {battleMap[longitudeShot, latitudeShot].ToString()} a été touché en {playerInput}");
+                    //Console.WriteLine($"Le bateau de type {battleMap[longitudeShot, latitudeShot].ToString()} a été touché en {playerInput}");
                     boats[battleMap[longitudeShot, latitudeShot]] -= 1;
                     if (boats[battleMap[longitudeShot, latitudeShot]] == 0)
                     {
                         battleMap[longitudeShot, latitudeShot] = "Touché";
-                        Console.WriteLine("Touché. Coulé.");
+                        answerToAttack = "Touché. Coulé.";
                     }
                     else
                     {
                         battleMap[longitudeShot, latitudeShot] = "Touché";
+                        answerToAttack = "Touché.";
                     }
                     playerHealth--;
                 }
+
+                // Envoyer le resultat de l'attaque au server
+                await Client.AnswerToAttack("192.168.1.33", answerToAttack);
+
             }
 
             while (true)
