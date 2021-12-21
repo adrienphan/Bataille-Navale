@@ -12,6 +12,8 @@ namespace ConsoleApplication1
     {
         static void Main(string[] args)
         {
+            //Client.SendMessage("127.0.0.1", "I'm the first message");
+            Client.SendMessage("127.0.0.1", "Connected");
             GameLoop();
         }
         static int lineCharacterToInt(char charToUnicode)
@@ -102,8 +104,7 @@ namespace ConsoleApplication1
                     continue;
                 }
 
-
-                await Client.Send("192.168.1.33", playerInput);
+                await Client.Send("127.0.0.1", playerInput);
                 playerInput = Client.responseData;
 
                 linePosition = playerInput.Substring(0, 1/*EXCLU*/);
@@ -141,7 +142,7 @@ namespace ConsoleApplication1
                 }
 
                 // Envoyer le resultat de l'attaque au server
-                await Client.AnswerToAttack("192.168.1.33", answerToAttack);
+                await Client.AnswerToAttack("127.0.0.1", answerToAttack);
 
             }
 
