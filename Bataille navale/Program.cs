@@ -89,6 +89,8 @@ namespace ConsoleApplication1
             string linePosition = "";
             string columnPosition = ";";
 
+            tableBattle();
+
             /**CoordCheck
              * checks coordinates are valid
              * returns true if coords are valid
