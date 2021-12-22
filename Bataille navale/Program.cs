@@ -13,7 +13,7 @@ namespace ConsoleApplication1
         static void Main(string[] args)
         {
             //Client.SendMessage("127.0.0.1", "I'm the first message");
-            Client.SendMessage("127.0.0.1", "Connected");
+            Client.SendMessage("192.168.1.33", "Connected");
             GameLoop();
         }
         static int lineCharacterToInt(char charToUnicode)
@@ -67,7 +67,7 @@ namespace ConsoleApplication1
             string columnPosition = ";";
             string answerToAttack = "";
 
-            while (playerHealth > 0)
+            while (true)
             {
                 Console.WriteLine("Indiquez les coordonées du tir.");
                 playerInput = Console.ReadLine();
@@ -104,7 +104,7 @@ namespace ConsoleApplication1
                     continue;
                 }
 
-                await Client.Send("127.0.0.1", playerInput);
+                await Client.Send("192.168.1.33", playerInput);
                 playerInput = Client.responseData;
 
                 linePosition = playerInput.Substring(0, 1/*EXCLU*/);
@@ -141,11 +141,24 @@ namespace ConsoleApplication1
                     playerHealth--;
                 }
 
-                // Envoyer le resultat de l'attaque au server
-                await Client.AnswerToAttack("127.0.0.1", answerToAttack);
-
+                // On vérifie à chaque attaque si le joueur a perdu. Si c'est le cas, on sort de la boucle while(true) et on appelle la function Game over
+                if (playerHealth == 0)
+                {
+                    await Client.AnswerToAttack("192.168.1.33", "Game Over", true);
+                    break;
+                }
+                // Sinon, on envoie le résulat de l'attaque au serveur
+                else
+                {
+                    await Client.AnswerToAttack("192.168.1.33", answerToAttack, false);
+                }
             }
-
+            Console.WriteLine("Vous avez perdu!");
+            GameOver();
+        }
+        public static void GameOver()
+        {
+            string playerInput;
             while (true)
             {
                 Console.WriteLine("Fin de la partie. Voulez-vous rejouer? Ecrivez oui pour rejouer. Ecrivez non pour quitter.");
@@ -168,6 +181,5 @@ namespace ConsoleApplication1
                 }
             }
         }
-
     }
 }

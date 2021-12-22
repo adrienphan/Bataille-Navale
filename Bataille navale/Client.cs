@@ -24,7 +24,15 @@ namespace Bataille_navale
                 // Ouverture de la connection avec le server.
                 NetworkStream stream = client.GetStream();
                 // Envoie du message en bytes.
-                stream.Write(data, 0, data.Length);
+                int recv = 0;
+                foreach (byte b in data)
+                {
+                    if (b != 0)
+                    {
+                        recv++;
+                    }
+                }
+                //stream.Write(data, 0, recv);
                 stream.Flush();
                 //Affichage du message envoyé.
                 Console.WriteLine("Sent: {0}", message);
@@ -64,7 +72,7 @@ namespace Bataille_navale
                 //Affichage du message envoyé.
                 Console.WriteLine("Sent: {0}", message);
                 // Receive the TcpServer.response.
-                Thread.Sleep(1000);
+                Thread.Sleep(100);
                 stream.Flush();
 
                 // Receive the result of the attack
@@ -76,6 +84,11 @@ namespace Bataille_navale
                 stream.Flush();
                 responseData = System.Text.Encoding.ASCII.GetString(data, 0, bytes);
                 Console.WriteLine("Received: {0}", responseData);
+                if(responseData.Contains("Game Over"))
+                {
+                    Console.WriteLine("Vous avez gagné. Félicitations.");
+                    Program.GameOver();
+                }
 
                 // Receive the ennemy the attack
                 data = new Byte[256];
@@ -102,7 +115,7 @@ namespace Bataille_navale
             }
         }
 
-        public static async Task AnswerToAttack(string server, string message)
+        public static async Task AnswerToAttack(string server, string message, bool gameOver)
         {
             try
             {
@@ -114,9 +127,23 @@ namespace Bataille_navale
                 // Ouverture de la connection avec le server.
                 NetworkStream stream = client.GetStream();
                 // Envoie du message en bytes.
-                stream.Write(data, 0, data.Length);
+                int recv = 0;
+                foreach (byte b in data)
+                {
+                    if (b != 0)
+                    {
+                        recv++;
+                    }
+                }
+                stream.Write(data, 0, recv);
                 //Affichage du message envoyé.
-                Console.WriteLine("Sent: {0}", message);
+                if (!gameOver)
+                    Console.WriteLine("Sent: {0}", message);
+                else if (gameOver)
+                {
+                    Console.WriteLine("Game Over!");
+                }
+
                 // Receive the TcpServer.response.
 
                 // Close everything.
